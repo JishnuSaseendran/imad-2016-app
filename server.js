@@ -6,21 +6,39 @@ var app = express();
 app.use(morgan('combined'));
 
 
-var articleOne = {
-    title: 'Article One | Jishnu Saseendran',
-    heading: "Article One",
-    date: 'Sep 29, 2016',
-    content: ` <p>
-                    Python is a widely used high-level, general-purpose, interpreted, dynamic programming language. Its design philosophy emphasizes code  readability, and its syntax allows programmers to express concepts in fewer lines of code than possible in languages such as C++ or Java. The language provides constructs intended to enable writing clear programs on both a small and large scale.
-                </p>
-                <p>
-                    Python supports multiple programming paradigms, including object-oriented, imperative and functional programming or procedural styles. It features a dynamic type system and automatic memory management and has a large and comprehensive standard library.
-                </p>
-                <p>
-                    Python interpreters are available for many operating systems, allowing Python code to run on a wide variety of systems. Using third-party tools, such as Py2exe or Pyinstaller, Python code can be packaged into stand-alone executable programs for some of the most popular operating systems, so Python-based software can be distributed to, and used on, those environments with no need to install a Python interpreter.
-                </p>`
+var articles = { 
+    'article-one' : {
+        title: 'Article One | Jishnu Saseendran',
+        heading: "Article One",
+        date: 'Sep 29, 2016',
+        content: ` <p>
+                        Python is a widely used high-level, general-purpose, interpreted, dynamic programming language. Its design philosophy emphasizes code  readability, and its syntax allows programmers to express concepts in fewer lines of code than possible in languages such as C++ or Java. The language provides constructs intended to enable writing clear programs on both a small and large scale.
+                    </p>
+                    <p>
+                        Python supports multiple programming paradigms, including object-oriented, imperative and functional programming or procedural styles. It features a dynamic type system and automatic memory management and has a large and comprehensive standard library.
+                    </p>
+                    <p>
+                        Python interpreters are available for many operating systems, allowing Python code to run on a wide variety of systems. Using third-party tools, such as Py2exe or Pyinstaller, Python code can be packaged into stand-alone executable programs for some of the most popular operating systems, so Python-based software can be distributed to, and used on, those environments with no need to install a Python interpreter.
+                    </p>`
+    },
+    'article-two' : {
+        title: 'Article Two | Jishnu Saseendran',
+        heading: "Article Two",
+        date: 'Sep 29, 2016',
+        content: ` <p>
+                       This is my second article.
+                    </p>`
+            
+    },
+    'article-three' : {
+        title: 'Article Three | Jishnu Saseendran',
+        heading: "Article Three",
+        date: 'Sep 29, 2016',
+        content: ` <p>
+                       This is my third article.
+                    </p>`
+    }
 };
-
 function createTemplate (data) {
     var title = data.title;
     var heading = data.heading;
@@ -62,8 +80,9 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
-app.get('/article-one', function (req, res) {
-  res.send(createTemplate(articleOne));
+app.get('/:articleName', function (req, res) {
+  var articleName = req.paramas.articleName;    
+  res.send(createTemplate(articles[articleName]));
 });
 
 app.get('/article-two', function (req, res) {
